@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        td{
+            border: 1px solid black;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div id="app">
+
+        <form @submit.prevent>
+            <div v-for="(entry, i) in entries" :key="i">
+                <input type="text" name="nom" v-model="entries[i].nom">
+                <input type="text" name="prenom" v-model="entries[i].prenom">
+            </div>
+            <button @click="entries.push({})">+</button>
+        </form>
+
+
+        <!-- <ul>
+            <li v-for="(entry, i) in entries" :key="i">{{entries[i].nom}} {{entries[i].prenom}}</li>
+        </ul> -->
+
+        <table>
+            <thead>
+                <tr>
+                    <td>
+                        nom
+                    </td>
+                    <td>
+                        prenom
+                    </td>
+                    <td>
+                        supprimer
+                    </td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(entry, i) of entries" :key="i">
+                    <td>
+                        {{entries[i].nom}}
+                    </td>
+                    <td>
+                        {{entries[i].prenom}}
+                    </td>
+                    <td>
+                        <button @click="deleteEl(i)">supprimer</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+<pre style="background-color: #EEEEEE;">
+    JSON :
+        {{JSON.stringify(entries)}}
+</pre>
+
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript">
+
+        var app = new Vue({
+            el: '#app',
+            data: {
+                entries : [
+                    {}
+                ]
+            },
+            methods : {
+                deleteEl(i){
+                    this.entries.splice(i, 1);
+                }
+            }
+        });
+    </script>
+    
+</body>
+</html>
