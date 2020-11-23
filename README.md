@@ -11,3 +11,5 @@
 	- via `{{ JSON.stringify(ma_var_json) }}`
 	- via un code html et une boucle for dans un `<table></table>`
 4. Bonus : ajouter un colonne 'trash', pour supprimer la ligne
+
+![rendu](./vue.png "formulaire")
