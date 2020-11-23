@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="app">
+        <h1>Ajouter une personne</h1>
+        <div v-for="(personne, i) in personnes">
+            <label :for="'nom_' + i">Nom *</label>
+            <input v-model="personne.nom" type="text" :id="'nom_' + i">
+            <label :for="'prenom_' +i">Prenom *</label>
+            <input v-model="personne.prenom" type="text" :id="'prenom_' +i">
+        </div>
+        <input type="button" value="Ajouter" @click='addUser'>
+
+        <h2>Liste des personnes</h2>
+        <pre>
+            {{ JSON.stringify(personnes, null, '\t') }}
+        </pre>
+
+        <table style="width: 100%;">
+            <thead>
+                <tr>
+                    <td>Nom</td>
+                    <td>Prenom</td>
+                    <td>Action</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(personne, i) in personnes">
+                    <td>{{personne.nom}}</td>
+                    <td>{{personne.prenom}}</td>
+                    <td><button @click='removeUser(i)'>Supprimer</button></td>
+                </tr>
+            </tbody>
+        </table>       
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        var app6 = new Vue({
+            el: '#app',
+            data: {
+                personnes: [{'nom': '', 'prenom': ''}]
+            },
+            methods: {
+                addUser() {
+                    this.personnes.push({ 'nom': '', 'prenom': '' });
+                },
+                removeUser(i) {
+                    this.personnes.splice(i,1);
+                }
+            }
+        })
+    </script>
+</body>
+
+</html>
