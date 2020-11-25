@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <title>Tp1VueJS</title>
+    <!-- Ajouter lien fichier css -->
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <style>
+        .block{
+            display:block;
+        }
+
+
+
+        table{
+            margin-top:50px;
+        }
+
+        .resultat{
+            display:block;
+        }
+    </style>
+
+</head>
+<body>
+
+<div id="app">
+    <h1> Formulaire d'inscription :</h1>
+    <div class="block">
+
+        <div v-for="i in cpt">
+
+            <input v-model="nom[i-1]" placeholder="nom">
+
+            <input v-model="prenom[i-1]" placeholder="prenom">
+
+        </div>
+
+        <input type="button" value="Ajouter une inscription" v-on:click="cpt++">
+
+        <div class="resultat">
+            <table>
+                <tr>
+                    <th>Nom</th>
+                    <th>Prenom</th>
+                    <th>sup</th>
+                </tr>
+                <tr v-for="j in cpt">
+                    <td>{{JSON.stringify(nom[j-1])}}</td>
+                    <td>{{JSON.stringify(prenom[j-1])}}</td>
+                    <td></td>
+                </tr>
+
+
+            </table>
+            <p>{{nom}}</p>
+            <p>{{prenom}}</p>
+
+        </div>
+
+    </div>
+
+
+</div>
+
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+    <script type="text/javascript">
+        var vm = new Vue({
+            el: '#app',
+            data: {
+                nom: [],
+                prenom: [],
+                cpt: 1
+            }
+        });
+
+
+    </script>
+</body>
+</html>
