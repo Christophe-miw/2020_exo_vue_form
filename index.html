@@ -38,11 +38,11 @@
         </tr>
         </thead>
         <tbody>
-        <tr v-for="(personne, i) in personnes" :class="personnes[i].selected ? 'selected' : ''">
+        <tr v-for="(personne, i) in personnes" :style="personne.check ? 'background-color: red' : ''">
             <td>{{personne.nom}}</td>
             <td>{{personne.prenom}}</td>
             <td><button @click='removeUser(i)'>Supprimer</button></td>
-            <td><input name="check" type="checkbox" :id="'checked'+ i" v-model="personnes[i].selected">Selectionner</input></td>
+            <td><input type="checkbox" name="" id="" v-model="personne.check">Selectionner</td>
         </tr>
         </tbody>
     </table>
@@ -54,11 +54,11 @@
     let vue = new Vue({
         el: '#app',
         data: {
-            personnes: [{'nom': '', 'prenom': ''}]
+            personnes: [{'nom': '', 'prenom': '', 'check': false }]
         },
         methods: {
             addUser() {
-                this.personnes.push({ 'nom': '', 'prenom': '' });
+                this.personnes.push({ 'nom': '', 'prenom': '', 'check': false });
             },
             removeUser(i) {
                 this.personnes.splice(i,1);
