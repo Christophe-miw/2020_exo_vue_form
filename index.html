@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+
+<html class="accueil" lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Inscription</title>
+        <link rel="stylesheet" href="style.css">
+	</head>
+	<body>
+		<h1>Inscription</h1>
+		<div id="app">
+			
+			<div class="champs" style="display: flex;" v-for="element in elements" >
+				
+					<input v-model="element.nom" placeholder="Nom" style="margin-top: 2%;">
+				
+
+					<input v-model="element.prenom" placeholder="Prenom" style="margin-left:2%; margin-top: 2%;">
+					
+				
+			</div>
+			<div class="add">
+				<button type="button" v-on:click='adduser' style=" margin:1%; background-color:#cbffb6 ; border-color: cadetblue; border-radius: 33px;">
+					Add
+				</button>
+			</div>
+			
+
+			<table style="width: 100%;">
+				<thead style=" background-color:#ffb6b6 ;">
+					<th>Nom</th>
+					<th>Prénom</th>
+					<th>Sup</th>
+				</thead>
+					
+				<tbody v-for="element in elements">
+					<tr >
+						<td align="center">
+							{{ element.nom }}
+						</td>
+						<td align="center">
+							{{ element.prenom }}
+						</td>
+						<td align="center">
+							<button type="button" v-on:click="delUser(index)" style="background-color:#ff9784 ; border-color: rgb(139, 36, 36);">X</button>
+							<input type="checkbox" v-model="element.checked">
+						</td>
+					</tr>
+				</tbody>
+			</table>
+			
+
+		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script type="text/javascript">
+			var vm = new Vue({
+				el: '#app',
+				data: function(){
+					return{
+						elements: [{nom:"", prenom:"", checked:"false"}],
+					}
+					
+                   
+				},
+				mounted() {
+					if (localStorage.getItem('elements')) {
+						try {
+							this.elements = JSON.parse(localStorage.getItem('elements'));
+						} catch(e) {
+							localStorage.removeItem('elements');
+						}
+					}
+				},
+
+				methods:{
+					adduser(){
+						
+						this.elements.push({nom:"", prenom:"",checked:"false"});
+						this.saveElements();
+					},
+
+					delUser(i){
+						this.elements.splice(i,1);
+						this.saveElements();
+					},
+					saveElements() {
+						const parsed = JSON.stringify(this.elements);
+						localStorage.setItem('elements', parsed);
+					},
+					
+				
+				}
+            });
+            
+		</script>
+	</body>
+</html>
