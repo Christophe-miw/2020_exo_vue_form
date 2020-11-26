@@ -8,6 +8,9 @@
         td{
             border: 1px solid black;
         }
+        .selected {
+            background-color: #BB2222;
+        }
     </style>
 </head>
 <body>
@@ -19,6 +22,8 @@
             <div v-for="(entry, i) in entries" :key="i">
                 <input type="text" name="nom" v-model="entries[i].nom">
                 <input type="text" name="prenom" v-model="entries[i].prenom">
+                <input type="checkbox" :id="'check_' + i" name="check" v-model="entries[i].selected">
+                <label :for="'check_' + i">selectionner</label>
             </div>
             <button @click="entries.push({})">+</button>
         </form>
@@ -38,7 +43,7 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(entry, i) of entries" :key="i">
+                <tr v-for="(entry, i) of entries" :key="i" :class="entries[i].selected ? 'selected' : ''">
                     <td>
                         {{entries[i].nom}}
                     </td>
@@ -68,9 +73,7 @@
         var app = new Vue({
             el: '#app',
             data: {
-                entries : [
-                    {}
-                ]
+                entries : [{}]
             },
             methods : {
                 deleteEl(i){
