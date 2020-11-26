@@ -8,17 +8,14 @@
 </head>
 
 <body>
-
     <h1>Formulaire d'Inscriptions</h1>
 
-
     <div id="app">
-        <div class="form-group" v-for="(input,k) in inputs" :key="k">
-            <div>
+        <div v-for="(input,k) in inputs" :key="k">
+            <div :style="input.color? 'background-color: green;':''">
                 <input type="text" class="form-control" v-model="input.nom" placeholder="Nom">
-                {{input.nom}}
                 <input type="text" class="form-control" v-model="input.prenom" placeholder="Prénom">
-                {{input.prenom}}
+                <input type="checkbox" id="color" v-model="input.color">
             </div>
 
             <span>
@@ -26,16 +23,15 @@
                 <button v-on:click="ajout(k)" v-show="k == inputs.length-1">+ Ajouter</button>
             </span>
 
+
         </div>
-        <button v-on:click="ajoutFormulaire">
-            Envoyer
-        </button>
+        <table border="2px" style="min-width: 150px; min-height: 20px; max-width: 300px; max-height: 100px;">
+            <tr v-for="(input,k) in inputs" :key="k" :style="input.color? 'background-color: green;':''">
+                <td>{{input.nom}}</td>
+                <td>{{input.prenom}}</td>
+            </tr>
+        </table>
     </div>
-
-
-
-
-
 </body>
 
 </html>
@@ -45,32 +41,30 @@
     new Vue({
         el: '#app',
 
-        data() {
-            return {
-                inputs: [{
+        data: {
+            inputs: [
+                {
+                    prenom: '',
                     nom: '',
-                    prenom: ''
-                }]
-            }
+                    color: false
+                }
+            ]
         },
 
         methods: {
             ajout() {
                 this.inputs.push({
-                    nom: 'Nom',
-                    prenom: 'Prénom'
+                    nom: '',
+                    prenom: ''
                 })
-                console.log(this.inputs)
             },
 
             remove(index) {
                 this.inputs.splice(index, 1)
             },
 
-            ajoutFormulaire() {
-
-                JSON.stringify(this.inputs)
-
+            color() {
+                this.inputs
             }
         }
     })
