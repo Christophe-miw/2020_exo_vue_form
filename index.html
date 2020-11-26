@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Exo vuejs</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <style>
+        .bcg{
+            background-color: red;
+        }
+        th{
+            min-width: 100px;
+        }
+        table{
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+<h1>Liste des Personnes</h1>
+<div id="contenu">
+    <form v-for="(personne,i) in personnes">
+        <label>
+        <input type="text" v-model="personne.nom" placeholder="Nom" @input="savePersonnes">
+    </label>
+        <label>
+            <input type="text" v-model="personne.prenom" placeholder="Prénom" @input="savePersonnes">
+        </label>
+        <input type="checkbox" v-model="personne.bcg">
+        </form>
+    <button v-on:click="ajouterPersonne" type="button">Ajouter une personne</button>
+    <button v-on:click="suppPersonne">Vider la liste</button>
+
+    <p>{{ personnes }}</p>
+    <table>
+        <thead>
+        <tr>
+            <th>Nom</th>
+            <th>Prénom</th>
+            <th>Sup</th>
+        </tr>
+        </thead>
+        <tr v-for="(pers,i) in personnes" :class="{ 'bcg': pers.bcg }">
+            <td>{{ pers.nom }}</td>
+            <td>{{ pers.prenom}}</td>
+            <td><button v-on:click="supune(i)">X</button></td>
+            <td><input type="checkbox" v-model="pers.bcg"></td>
+        </tr>
+    </table>
+</div>
+<script>
+    var personne = new Vue({
+        el: "#contenu",
+        data: {
+            personnes: [{ nom: "", prenom: "", bcg: false}],
+
+        },
+        mounted() {
+            if (localStorage.getItem('personnes')) {
+                try {
+                    this.personnes = JSON.parse(localStorage.getItem('personnes'));
+                } catch(e) {
+                    localStorage.removeItem('personnes');
+                }
+            }
+        },
+        methods: {
+            ajouterPersonne: function () {
+                this.personnes.push({nom: "", prenom: "",bcg: false});
+            },
+            suppPersonne: function () {
+                this.personnes= [{ nom: "", prenom: "",bcg: false}];
+                this.savePersonnes()
+            },
+            supune: function (index) {
+                this.personnes.splice(index, 1);
+                this.savePersonnes();
+            },
+            savePersonnes() {
+                const parsed = JSON.stringify(this.personnes);
+                localStorage.setItem('personnes', parsed);
+            }
+
+        },
+    });
+</script>
+</body>
+</html>
