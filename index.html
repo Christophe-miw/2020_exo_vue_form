@@ -70,7 +70,14 @@
                 }
             },
             mounted() {
-                if (localStorage.getItem('personnes')) this.personnes = JSON.parse(localStorage.getItem('personnes'));
+                if (localStorage.getItem('personnes')) {
+                    try {
+                        this.personnes = JSON.parse(localStorage.getItem('personnes'));
+                    } catch (e) {
+                        console.log(e);
+                        localStorage.removeItem('cats');
+                    }
+                }
             }
         })
     </script>
