@@ -15,19 +15,20 @@
         <div v-for="donnees, i  in inscriptions">
             <div class="row" style="margin-bottom: 20px;">
                 <div class="col">
-                    <input v-model="donnees.prenom" type="text" class="form-control" placeholder="Prénom">
+                    <input v-model="donnees.prenom" v-on:input="saveInscriptions()" type="text" class="form-control" placeholder="Prénom">
                 </div>
                 <div class="col">
-                    <input v-model="donnees.nom" type="text" class="form-control" placeholder="Nom">
+                    <input v-model="donnees.nom" v-on:input="saveInscriptions()" type="text" class="form-control" placeholder="Nom">
                 </div>
                 <div class="col">
                     <button class="btn btn-danger" @click="del(i)">Supprimer</button>
                 </div>
                 <div class="col">
                     <div class="input-group-text">
-                        <input type="checkbox" aria-label="Checkbox for following text input" @click="inscriptions[i].checked = !inscriptions[i].checked">
-                      </div>
-                  </div>
+                        <input type="checkbox" aria-label="Checkbox for following text input"
+                            @click="inscriptions[i].checked = !inscriptions[i].checked" v-on:input="saveInscriptions()" :checked="inscriptions[i].checked">
+                    </div>
+                </div>
             </div>
         </div>
         <button type="submit" class="btn btn-primary" @click="ajout()">Ajouter une inscription</button>
@@ -56,23 +57,46 @@
             el: '#app',
             data: {
                 inscriptions: [
-                    { 'prenom': 'Théo', 'nom': 'Boudier','checked': false },
-                    { 'prenom': 'Antoine', 'nom': 'Thomas','checked': false }
+                    { 'prenom': 'Théo', 'nom': 'Boudier', 'checked': false },
+                    { 'prenom': 'Antoine', 'nom': 'Thomas', 'checked': false }
                 ],
                 count: 2
             },
-            methods: {
-                ajout: function(){
-                    this.inscriptions.push(
-                        {'prenom': '', 'nom': '', 'checked': false}
-                    )
-                },
-                del: function(i){
-                   //console.log(i)
-                   this.inscriptions.splice(i,1)
+            mounted() {
+                if (localStorage.getItem('inscriptions')) {
+                    try {
+                        this.inscriptions = JSON.parse(localStorage.getItem('inscriptions'));
+                    } catch (e) {
+                        localStorage.removeItem('inscriptions');
+                    }
                 }
             },
-            
+            methods: {
+                ajout: function () {
+                    this.inscriptions.push(
+                        { 'prenom': '', 'nom': '', 'checked': false }
+                    )
+
+                    //Sauvegarder dans local storage
+                    this.saveInscriptions();
+                },
+                del: function (i) {
+                    //console.log(i)
+                    this.inscriptions.splice(i, 1)
+
+                    //Sauvegarder dans local storage
+                    this.saveInscriptions();
+                },
+                saveInscriptions() {
+                    const parsed = JSON.stringify(this.inscriptions);
+                    localStorage.setItem('inscriptions', parsed);
+                },
+                test(){
+                    console.log('test')
+                }
+            },
+
+
 
         });
     </script>
