@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="fr">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Vue form</title>
+    <style>
+        .selected {
+            background-color: red;
+        }
+    </style>
+</head>
+
+<body>
+<div id="app">
+    <h1>Ajouter une personne</h1>
+    <div v-for="(personne, i) in personnes">
+        <label :for="'nom_' + i">Nom *</label>
+        <input v-model="personne.nom" type="text" :id="'nom_' + i">
+        <label :for="'pre_' +i">Prenom *</label>
+        <input v-model="personne.prenom" type="text" :id="'pre_' +i">
+    </div>
+    <input type="button" value="Ajouter" @click='addUser'>
+
+    <h2>Liste des personnes</h2>
+
+    <div>
+        {{ JSON.stringify(personnes, null, '\t') }}
+    </div>
+
+    <table>
+        <thead>
+        <tr>
+            <td>Nom</td>
+            <td>Prenom</td>
+            <td>Action</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr v-for="(personne, i) in personnes" :class="personnes[i].selected ? 'selected' : ''">
+            <td>{{personne.nom}}</td>
+            <td>{{personne.prenom}}</td>
+            <td><button @click='removeUser(i)'>Supprimer</button></td>
+            <td><input name="check" type="checkbox" :id="'checked'+ i" v-model="personnes[i].selected">Selectionner</input></td>
+        </tr>
+        </tbody>
+    </table>
+</div>
+
+
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script>
+    let vue = new Vue({
+        el: '#app',
+        data: {
+            personnes: [{'nom': '', 'prenom': ''}]
+        },
+        methods: {
+            addUser() {
+                this.personnes.push({ 'nom': '', 'prenom': '' });
+            },
+            removeUser(i) {
+                this.personnes.splice(i,1);
+            }
+        }
+    })
+</script>
+</body>
+
+</html>
