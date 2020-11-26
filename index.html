@@ -21,10 +21,10 @@
 <div id="contenu">
     <form v-for="(personne,i) in personnes">
         <label>
-        <input type="text" v-model="personne.nom" placeholder="Nom">
+        <input type="text" v-model="personne.nom" placeholder="Nom" @input="savePersonnes">
     </label>
         <label>
-            <input type="text" v-model="personne.prenom" placeholder="Prénom">
+            <input type="text" v-model="personne.prenom" placeholder="Prénom" @input="savePersonnes">
         </label>
         <input type="checkbox" v-model="personne.bcg">
         </form>
@@ -55,17 +55,33 @@
             personnes: [{ nom: "", prenom: "", bcg: false}],
 
         },
+        mounted() {
+            if (localStorage.getItem('personnes')) {
+                try {
+                    this.personnes = JSON.parse(localStorage.getItem('personnes'));
+                } catch(e) {
+                    localStorage.removeItem('personnes');
+                }
+            }
+        },
         methods: {
             ajouterPersonne: function () {
                 this.personnes.push({nom: "", prenom: "",bcg: false});
             },
             suppPersonne: function () {
                 this.personnes= [{ nom: "", prenom: "",bcg: false}];
+                this.savePersonnes()
             },
             supune: function (index) {
                 this.personnes.splice(index, 1);
+                this.savePersonnes();
+            },
+            savePersonnes() {
+                const parsed = JSON.stringify(this.personnes);
+                localStorage.setItem('personnes', parsed);
             }
-        }
+
+        },
     });
 </script>
 </body>
