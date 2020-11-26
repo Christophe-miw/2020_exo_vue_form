@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html class="accueil" lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Formulaire</title>
+    <style>
+        table{
+            border: solid 1px grey;
+        }
+
+        td{
+            border: solid 1px grey;
+        }
+
+        .selected{
+            background: #b2edee;
+        }
+
+    </style>
+</head>
+<body>
+<h1>Exercice sur le formulaire</h1>
+<div id="app">
+    <div class="bloc">
+        <p class="explication">
+            Le formulaire
+        </p>
+        <form>
+            <div v-for="(inscrit,i) in inscrits" :key="i">
+                <input v-model="inscrit.prenom" placeholder="Prenom">
+                <input v-model="inscrit.nom" placeholder="Nom">
+                <input type="checkbox" v-model="inscrit.selected">
+            </div>
+            <input type="button" @click="inscrits.push({})" value="Ajouter une inscription">
+
+            <table>
+                <thead>
+                <tr>
+                    <th>
+                        Prenom
+                    </th>
+                    <th>
+                        Nom
+                    </th>
+                    <th>
+                        Supprimer
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr v-for="(inscrit,i) in inscrits" :key="i" :class="inscrit.selected ? 'selected' : ''">
+                    <td>{{inscrit.prenom}}</td>
+                    <td> {{inscrit.nom}}</td>
+                    <td><input type="button" value="Delete" @click="del(i)"></td>
+                </tr>
+                </tbody>
+            </table>
+        </form>
+    </div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+<script type="text/javascript">
+
+    var vm = new Vue({
+        el: '#app',
+        data: {
+            inscrits: [
+            ]
+        },
+        methods : {
+            del : function (i){
+                this.inscrits.splice(i,1);
+            }
+        }
+    });
+
+
+</script>
+</body>
+</html>
