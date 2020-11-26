@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="utf-8">
+    <title>Exo vuejs</title>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+</head>
+<body>
+<h1>Liste des Personnes</h1>
+<div id="contenu">
+    <p><label>Nom :
+        <input type="text" v-model="nom" placeholder="Nom">
+    </label>
+        <label>Prénom :
+            <input type="text" v-model="prenom" placeholder="Prénom">
+        </label>
+        <button v-on:click="ajouterPersonne">Ajouter une personne</button>
+        <button v-on:click="suppPersonne">Vider la liste</button></p>
+    <ul>
+        <li v-for="pers in listePersonne"> {{ pers.nom }} {{ pers.prenom}}
+            <button v-on:click="supune(pers)">x</button></li>
+    </ul>
+</div>
+<script>
+    var personne = new Vue({
+        el: "#contenu",
+        data: {
+            nom: "",
+            prenom: "",
+            listePersonne: [],
+
+        },
+        methods: {
+            ajouterPersonne: function () {
+                this.listePersonne.push({ nom: this.nom, prenom: this.prenom});
+                this.nom= "";
+                this.prenom= "";
+            },
+            suppPersonne: function () {
+                this.listePersonne= [];
+            },
+            supune: function (pers) {
+                var index = this.listePersonne.indexOf(pers);
+                this.listePersonne.splice(index, 1);
+            }
+        }
+    });
+</script>
+</body>
+</html>
