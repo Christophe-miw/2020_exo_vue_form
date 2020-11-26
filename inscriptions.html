@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+
+<html class="accueil" lang="fr">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>Inscriptions.html</title>
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	</head>
+	<body>
+		<h1>Formulaire d'inscription</h1>
+		<div id="app">
+			<div class="formulaire">
+				<form>
+					<div v-for="ligne in lignes">
+						<input class="text" type="text" v-model="ligne.nom" placeholder="Nom">
+						<input class="text" type="text" v-model="ligne.prenom" placeholder="Prénom">
+					</div>
+					<div class="add">
+						<button class="btn-success" type="button" @click="addUser">
+							AddUser
+						</button>
+					</div>
+				</form>
+			</div>
+
+			<br>
+			<br>
+
+			<div class="alert alert-primary" role="alert">
+				{{ JSON.stringify(lignes) }}
+			</div>
+
+			<br>
+			<br>
+
+			<div class="tableau">
+				<table class="table">
+					<thead>
+						<tr>
+							<th>Nom</th>
+							<th>Prenom</th>
+							<th>Sup</th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr v-for="(ligne, index) in lignes"
+							:class="{'coucou' : ligne.checked}"
+							>
+							<td>{{ligne.nom}}</td>
+							<td>{{ligne.prenom}}</td>
+							<td>
+								<button class="btn-danger" @click="delUser(index)">X_{{index}}</button>
+								<input class="checkbox" type="checkbox" v-model="ligne.checked">
+							</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+
+		</div>
+
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<script type="text/javascript">
+
+			var app = new Vue({
+				el: '#app',
+				data: function(){
+					return {
+						lignes: [
+							{nom: "toto", prenom: "titi", checked: false}
+						]
+					}},
+				methods: {
+					addUser(){
+						this.lignes.push({nom:"", prenom: "", checked: false });
+					},
+					delUser(index){
+						this.lignes.splice(index,1);
+					}
+				},
+			});
+		</script>
+	</body>
+</html>
