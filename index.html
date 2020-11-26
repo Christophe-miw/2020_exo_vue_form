@@ -19,7 +19,7 @@
 <body>
 <h1>Liste des Personnes</h1>
 <div id="contenu">
-    <div v-for="(personne,i) in personnes">
+    <form v-for="(personne,i) in personnes">
         <label>
         <input type="text" v-model="personne.nom" placeholder="Nom">
     </label>
@@ -27,8 +27,8 @@
             <input type="text" v-model="personne.prenom" placeholder="Prénom">
         </label>
         <input type="checkbox" v-model="personne.bcg">
-        <button v-on:click="ajouterPersonne">Ajouter une personne</button>
-        </div>
+        </form>
+    <button v-on:click="ajouterPersonne" type="button">Ajouter une personne</button>
     <button v-on:click="suppPersonne">Vider la liste</button>
 
     <p>{{ personnes }}</p>
@@ -62,8 +62,7 @@
             suppPersonne: function () {
                 this.personnes= [{ nom: "", prenom: "",bcg: false}];
             },
-            supune: function (pers) {
-                var index = this.personnes.indexOf(pers);
+            supune: function (index) {
                 this.personnes.splice(index, 1);
             }
         }
