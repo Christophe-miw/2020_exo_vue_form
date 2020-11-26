@@ -20,6 +20,8 @@
         <input type="button" value="Ajouter" @click='addUser'>
 
         <h2>Liste des personnes</h2>
+        <button @click='saveData()'>Conserver les données</button>
+        <button @click='deleteData()'>Ne pas conserver les données</button>
         <pre>
             {{ JSON.stringify(personnes, null, '\t') }}
         </pre>
@@ -59,7 +61,16 @@
                 },
                 removeUser(i) {
                     this.personnes.splice(i, 1);
+                },
+                saveData() {
+                    localStorage.setItem('personnes', JSON.stringify(this.personnes));
+                },
+                deleteData() {
+                    localStorage.removeItem('personnes');
                 }
+            },
+            mounted() {
+                if (localStorage.getItem('personnes')) this.personnes = JSON.parse(localStorage.getItem('personnes'));
             }
         })
     </script>
