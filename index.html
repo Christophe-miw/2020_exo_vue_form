@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        td{
+            border: 1px solid black;
+        }
+        .selected {
+            background-color: #BB2222;
+            color: white;
+        }
+        pre {
+            background-color: #EEEEEE;
+        }
+        [v-cloak] {
+            visibility: hidden;
+        }
+    </style>
+</head>
+<body>
+
+
+    <div id="app">
+
+        <form @submit.prevent>
+            <div v-for="(entry, i) in entries" :key="i">
+                <input type="text" name="nom" v-model="entry.nom">
+                <input type="text" name="prenom" v-model="entry.prenom">
+                <input type="checkbox" :id="'check_' + i" name="check" v-model="entry.selected">
+                <label :for="'check_' + i">selectionner</label>
+            </div>
+            <button @click="store">+</button>
+        </form>
+        
+        <table>
+            <thead>
+                <tr>
+                    <td>nom</td>
+                    <td>prenom</td>
+                    <td>supprimer</td>
+                </tr>
+            </thead>
+            <tbody>
+                <tr v-for="(entry, i) of entries" :key="i" :class="entry.selected ? 'selected' : ''">
+
+                    <td v-cloak>{{entries[i].nom}}</td>
+
+                    <td v-cloak>{{entries[i].prenom}}</td>
+                    <td>
+                        <button @click="deleteEl(i)">supprimer</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+
+<pre v-cloak>
+    JSON :
+        {{JSON.stringify(entries)}}
+</pre>
+
+    </div>
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript">
+
+        var app = new Vue({
+            el: '#app',
+            data() {
+                return {
+                    entries : [{}]
+                }
+            },
+            methods : {
+                deleteEl(i) {
+                    this.entries.splice(i, 1);
+                },
+                store() {
+                    this.entries.push({})
+                }
+            },
+            created() {
+                try {
+                    this.entries = JSON.parse(localStorage.getItem('data1')) || [{}]
+                } catch (error) {
+                    console.error(error)
+                }
+            },
+            updated() {
+                localStorage.setItem('data1', JSON.stringify(this.entries))
+            }
+        });
+    </script>
+    
+</body>
+</html>
