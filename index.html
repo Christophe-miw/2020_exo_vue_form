@@ -21,14 +21,16 @@
         <label :for="'pre_' +i">Prenom *</label>
         <input v-model="personne.prenom" type="text" :id="'pre_' +i">
     </div>
+    <br>
     <input type="button" value="Ajouter" @click='addUser'>
-
+    <br><br>
+    <button @click='saveData()'>Save</button>
+    <button @click='deleteData()'>Delete</button>
     <h2>Liste des personnes</h2>
-
     <div>
         {{ JSON.stringify(personnes, null, '\t') }}
     </div>
-
+    <br>
     <table>
         <thead>
         <tr>
@@ -62,6 +64,22 @@
             },
             removeUser(i) {
                 this.personnes.splice(i,1);
+            },
+            saveData() {
+                localStorage.setItem('personnes', JSON.stringify(this.personnes));
+            },
+            deleteData() {
+                localStorage.removeItem('personnes');
+            }
+        },
+        mounted() {
+            if (localStorage.getItem('personnes')) {
+                try {
+                    this.personnes = JSON.parse(localStorage.getItem('personnes'));
+                } catch (e) {
+                    console.log(e);
+                    localStorage.removeItem('cats');
+                }
             }
         }
     })
