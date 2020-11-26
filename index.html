@@ -10,11 +10,12 @@
 <body>
     <div id="app">
         <h1>Ajouter une personne</h1>
-        <div v-for="(personne, i) in personnes">
+        <div v-for="(personne, i) in personnes" :style="personne.check ? 'background-color: green' : ''">
             <label :for="'nom_' + i">Nom *</label>
             <input v-model="personne.nom" type="text" :id="'nom_' + i">
             <label :for="'prenom_' +i">Prenom *</label>
             <input v-model="personne.prenom" type="text" :id="'prenom_' +i">
+            <input type="checkbox" name="" id="" v-model="personne.check">
         </div>
         <input type="button" value="Ajouter" @click='addUser'>
 
@@ -32,13 +33,16 @@
                 </tr>
             </thead>
             <tbody>
-                <tr v-for="(personne, i) in personnes">
+                <tr v-for="(personne, i) in personnes" :style="personne.check ? 'background-color: green' : ''">
                     <td>{{personne.nom}}</td>
                     <td>{{personne.prenom}}</td>
-                    <td><button @click='removeUser(i)'>Supprimer</button></td>
+                    <td>
+                        <input type="checkbox" name="" id="" v-model="personne.check">
+                        <button @click='removeUser(i)'>Supprimer</button>
+                    </td>
                 </tr>
             </tbody>
-        </table>       
+        </table>
     </div>
 
 
@@ -47,14 +51,14 @@
         var app6 = new Vue({
             el: '#app',
             data: {
-                personnes: [{'nom': '', 'prenom': ''}]
+                personnes: [{ 'nom': '', 'prenom': '', 'check': false }]
             },
             methods: {
                 addUser() {
-                    this.personnes.push({ 'nom': '', 'prenom': '' });
+                    this.personnes.push({ 'nom': '', 'prenom': '', 'check': false });
                 },
                 removeUser(i) {
-                    this.personnes.splice(i,1);
+                    this.personnes.splice(i, 1);
                 }
             }
         })
