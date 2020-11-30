@@ -32,7 +32,7 @@
                 <input v-model="inscrit.nom" placeholder="Nom">
                 <input type="checkbox" v-model="inscrit.selected">
             </div>
-            <input type="button" @click="inscrits.push({})" value="Ajouter une inscription">
+            <input type="button" @click="add()" value="Ajouter une inscription">
 
             <table>
                 <thead>
@@ -53,6 +53,7 @@
                     <td>{{inscrit.prenom}}</td>
                     <td> {{inscrit.nom}}</td>
                     <td><input type="button" value="Delete" @click="del(i)"></td>
+                    <td><input type="button" value="Save" @click="save(i)"></td>
                 </tr>
                 </tbody>
             </table>
@@ -69,8 +70,21 @@
             ]
         },
         methods : {
-            del : function (i){
+            save(i){
+                localStorage.setItem('inscrit', this.inscrits[i]);
+                this.setLocal(i);
+            },
+            del(i){
                 this.inscrits.splice(i,1);
+                this.setLocal(i);
+            },
+            add(){
+                this.inscrits.push({});
+            },
+            setLocal(i){
+                var inscrit;
+                inscrit += JSON.stringify(this.inscrits[i]);
+                localStorage.setItem("inscrit", inscrit);
             }
         }
     });
